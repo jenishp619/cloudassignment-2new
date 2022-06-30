@@ -7,7 +7,6 @@ var bodyParser = require("body-parser");
 var fs = require("fs");
 var app = express();
 var ip = require("ip");
-var fetch = require("node-fetch");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -20,26 +19,11 @@ const s3 = new AWS.S3({
 
 var bucketname = "b00897765-data";
 
-app.get('/begin', async function(req,res){
-  console.log("start point");
-  const response = await fetch('http://52.23.207.11:8081/start', {
-          method: 'post',
-          body: JSON.stringify({
-              "banner": "B00899517",
-              "ip": "ec2-18-233-165-128.compute-1.amazonaws.com:5000"
-              }),
-          headers: {'Content-Type': 'application/json'}
 
-      });
-      console.log("This is response: ",response);
-      
-      return response;
+axios.post('http://52.23.207.11:8081/start', {
+    banner : "B00897765",
+    ip : ip.address()
 });
-
-// axios.post('http://52.23.207.11:8081/start', {
-//     banner : "B00897765",
-//     ip : ip.address()
-// });
 
 // app.post("/start",(request,response)=>{
 //   response.setHeader('Content-Type', 'application/json');
